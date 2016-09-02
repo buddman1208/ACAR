@@ -20,7 +20,7 @@ public interface NetworkInterface {
 
 
     @GET("/auth/facebook/token")
-    Call<User> userLogin(
+    Call<FacebookUser> userLogin(
         @Field("access_token") String accessToken
     );
 }
