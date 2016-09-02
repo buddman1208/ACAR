@@ -7,10 +7,9 @@ public class User {
 
     private String id, name, gcm_token;
 
-    public User(String id, String name, String gcm_token) {
+    public User(String id, String name) {
         this.id = id;
         this.name = name;
-        this.gcm_token = gcm_token;
     }
 
     public String getId() {
