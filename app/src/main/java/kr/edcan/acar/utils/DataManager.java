@@ -1,10 +1,10 @@
-package kr.edcan.acar;
+package kr.edcan.acar.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.util.Pair;
-import android.util.Log;
 
+import kr.edcan.acar.models.FacebookUser;
 import kr.edcan.acar.models.User;
 
 /**

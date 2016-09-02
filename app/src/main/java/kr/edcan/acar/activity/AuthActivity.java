@@ -1,4 +1,4 @@
-package kr.edcan.acar;
+package kr.edcan.acar.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,6 +15,11 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import kr.edcan.acar.utils.DataManager;
+import kr.edcan.acar.models.FacebookUser;
+import kr.edcan.acar.utils.NetworkHelper;
+import kr.edcan.acar.utils.NetworkInterface;
+import kr.edcan.acar.R;
 import kr.edcan.acar.models.User;
 import retrofit2.Call;
 import retrofit2.Callback;

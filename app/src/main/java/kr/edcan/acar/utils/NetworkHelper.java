@@ -1,4 +1,4 @@
-package kr.edcan.acar;
+package kr.edcan.acar.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,4 +1,4 @@
-package kr.edcan.acar;
+package kr.edcan.acar.models;
 
 import com.google.gson.annotations.SerializedName;
 

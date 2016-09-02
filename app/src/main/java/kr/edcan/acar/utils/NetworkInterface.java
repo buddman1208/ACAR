@@ -1,6 +1,6 @@
-package kr.edcan.acar;
+package kr.edcan.acar.utils;
 
-import kr.edcan.acar.models.User;
+import kr.edcan.acar.models.FacebookUser;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;

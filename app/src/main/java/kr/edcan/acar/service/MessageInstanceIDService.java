@@ -1,13 +1,13 @@
-package kr.edcan.acar;
+package kr.edcan.acar.service;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
-import okhttp3.Response;
+import kr.edcan.acar.utils.NetworkHelper;
+import kr.edcan.acar.utils.NetworkInterface;
+import kr.edcan.acar.utils.DataManager;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
