@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "605769637720",
+    "firebase_url": "https://acar-ff641.firebaseio.com",
+    "project_id": "acar-ff641",
+    "storage_bucket": "acar-ff641.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605769637720:android:ef4549a80e8dd3c6",
+        "android_client_info": {
+          "package_name": "kr.edcan.acar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605769637720-rpjq6ul29j7n26h0lvpgm69gb0aml6ua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPEUhWIreNbjsMqYzBoYCkTUAMZfWDT_o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
