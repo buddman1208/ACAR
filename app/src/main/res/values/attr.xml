@@ -1,0 +1,59 @@
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="AbstractWheelView">
+        <attr name="visibleItems" format="integer" />
+        <attr name="isAllVisible" format="boolean" />
+        <attr name="itemOffsetPercent" format="integer" />
+        <attr name="itemsPadding" format="dimension" />
+        <attr name="selectionDividerDimmedAlpha" format="integer" />
+        <attr name="selectionDividerActiveAlpha" format="integer" />
+        <attr name="selectionDivider" format="reference" />
+        <attr name="itemsDimmedAlpha" format="integer" />
+        <attr name="isCyclic" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="WheelVerticalView">
+        <attr name="selectionDividerHeight" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="WheelHorizontalView">
+        <attr name="selectionDividerWidth" format="dimension" />
+    </declare-styleable>
+    <attr name="abstractWheelViewStyle" format="reference" />
+    <declare-styleable name="EXPView">
+        <attr name="autoCenterPointerInSlice" format="boolean" />
+        <attr name="highlightStrength" format="float" />
+        <attr name="labelColor" format="color" />
+        <attr name="labelHeight" format="dimension" />
+        <attr name="labelPosition" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="labelWidth" format="dimension" />
+        <attr name="labelY" format="dimension" />
+        <attr name="pieRotation" format="integer" />
+        <attr name="pointerRadius" format="dimension" />
+        <attr name="showTexts" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SeekArc">
+        <attr name="thumb" format="reference" />
+        <attr name="thumbSize" format="dimension" />
+        <attr name="thumbOffset" format="dimension" />
+        <attr name="max" format="integer" />
+        <attr name="progressWidth" format="dimension" />
+        <attr name="arcWidth" format="dimension" />
+        <attr name="progress" format="integer" />
+        <attr name="rotation" format="integer" />
+        <attr name="startAngle" format="integer" />
+        <attr name="sweepAngle" format="integer" />
+        <attr name="arcColor" format="color" />
+        <attr name="aProgressColor" format="color" />
+        <attr name="roundEdges" format="boolean" />
+        <attr name="touchInside" format="boolean" />
+        <attr name="clockwise" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="SeekArcTheme">
+        <attr name="seekArcStyle" format="reference"></attr>
+    </declare-styleable>
+</resources>
