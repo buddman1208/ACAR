@@ -2,10 +2,16 @@ package kr.edcan.acar.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -27,6 +33,7 @@ import retrofit2.Response;
 
 public class AuthActivity extends AppCompatActivity {
 
+    ImageView logo;
     LoginButton fbLogin;
     CallbackManager manager;
     NetworkInterface service;
@@ -43,6 +50,32 @@ public class AuthActivity extends AppCompatActivity {
         validateUserToken();
     }
 
+    private void animate() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TranslateAnimation animation = new TranslateAnimation(0, 0, 0, -500.0f);
+                animation.setDuration(1000);
+                animation.setFillAfter(true);
+                logo.startAnimation(animation);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        fbLogin.setVisibility(View.VISIBLE);
+                        Animation fadeIn = AnimationUtils.loadAnimation(AuthActivity.this, R.anim.fade_in);
+                        fbLogin.setAnimation(fadeIn);
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+            }
+        }, 1000);
+    }
+
     private void validateUserToken() {
         Pair<Boolean, User> userPair = dataManager.getActiveUser();
         if (!userPair.first) {
@@ -55,10 +88,12 @@ public class AuthActivity extends AppCompatActivity {
     private void initialize() {
         manager = CallbackManager.Factory.create();
         fbLogin = (LoginButton) findViewById(R.id.auth_facebookbutton);
+        logo = (ImageView) findViewById(R.id.main_logo);
         service = NetworkHelper.getNetworkInstance();
     }
 
     private void setFacebook() {
+        animate();
         LoginManager.getInstance().registerCallback(manager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -93,11 +128,16 @@ public class AuthActivity extends AppCompatActivity {
                 public void onResponse(Call<FacebookUser> call, Response<FacebookUser> response) {
                     switch (response.code()) {
                         case 200:
-                            FacebookUser facebookUser = response.body();
+                            final FacebookUser facebookUser = response.body();
                             dataManager.saveFacebookUserInfo(facebookUser);
-                            startActivity(new Intent(AuthActivity.this, MainActivity.class));
-                            Toast.makeText(AuthActivity.this, facebookUser.content.name + " 님 안녕하세요!", Toast.LENGTH_SHORT).show();
-                            finish();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                                    Toast.makeText(AuthActivity.this, facebookUser.content.name + " 님 안녕하세요!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }, 1000);
                             break;
                         case 401:
                             Toast.makeText(AuthActivity.this, "세션이 만료되었습니다.\n다시 로그인해주세요.", Toast.LENGTH_SHORT).show();
