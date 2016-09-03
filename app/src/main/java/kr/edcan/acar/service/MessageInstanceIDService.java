@@ -1,9 +1,12 @@
 package kr.edcan.acar.service;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import java.io.IOException;
 
 import kr.edcan.acar.utils.NetworkHelper;
 import kr.edcan.acar.utils.NetworkInterface;
@@ -28,7 +31,7 @@ public class MessageInstanceIDService extends FirebaseInstanceIdService {
         sendRegistrationToServer(refreshedToken);
     }
 
-    private void sendRegistrationToServer(String refreshedToken) {
+    private void sendRegistrationToServer(final String refreshedToken) {
         manager = new DataManager();
         manager.initializeManager(getApplicationContext());
         if(manager.getActiveUser().first) {
@@ -39,7 +42,13 @@ public class MessageInstanceIDService extends FirebaseInstanceIdService {
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                     switch (response.code()){
                         case 200:
-
+                            try {
+                                Log.e("asdf", response.body().string());
+                                Toast.makeText(MessageInstanceIDService.this, response.body().string(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e("asdf", e.getMessage());
+                            }
                             break;
                         case 401:
                             break;
