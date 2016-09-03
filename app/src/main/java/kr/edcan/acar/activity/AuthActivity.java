@@ -58,20 +58,14 @@ public class AuthActivity extends AppCompatActivity {
                 animation.setDuration(1000);
                 animation.setFillAfter(true);
                 logo.startAnimation(animation);
-                animation.setAnimationListener(new Animation.AnimationListener() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
+                    public void run() {
                         fbLogin.setVisibility(View.VISIBLE);
                         Animation fadeIn = AnimationUtils.loadAnimation(AuthActivity.this, R.anim.fade_in);
                         fbLogin.setAnimation(fadeIn);
                     }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                });
+                }, 500);
             }
         }, 1000);
     }
@@ -137,7 +131,7 @@ public class AuthActivity extends AppCompatActivity {
                                     Toast.makeText(AuthActivity.this, facebookUser.content.name + " 님 안녕하세요!", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
-                            }, 1000);
+                            }, 500);
                             break;
                         case 401:
                             Toast.makeText(AuthActivity.this, "세션이 만료되었습니다.\n다시 로그인해주세요.", Toast.LENGTH_SHORT).show();
