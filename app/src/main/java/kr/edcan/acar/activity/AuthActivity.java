@@ -142,6 +142,7 @@ public class AuthActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<FacebookUser> call, Throwable t) {
                     Log.e("asdf", t.getMessage());
+                    Toast.makeText(AuthActivity.this, "로그인 인증 중에 문제가 발생했습니다.\n서비스 관리자에게 문의해주세요.", Toast.LENGTH_SHORT).show();
                 }
             });
             return null;
