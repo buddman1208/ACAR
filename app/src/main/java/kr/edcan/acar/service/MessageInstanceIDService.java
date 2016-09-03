@@ -39,6 +39,7 @@ public class MessageInstanceIDService extends FirebaseInstanceIdService {
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                     switch (response.code()){
                         case 200:
+
                             break;
                         case 401:
                             break;
