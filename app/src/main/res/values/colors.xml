@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#9A68F2</color>
     <color name="colorAccent">#FF4081</color>
     <color name="progress_gray">#44000000</color>
+    <color name="sub_selected_color">#88FFFFFF</color>
+    <color name="main_selected_color">#FFFFFF</color>
+    <color name="sub_not_selected_color">#88000000</color>
+    <color name="main_not_selected_color">#5E5E5F</color>
 </resources>
