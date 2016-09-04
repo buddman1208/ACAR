@@ -6,12 +6,16 @@ import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Random;
@@ -20,8 +24,7 @@ import app.akexorcist.bluetotohspp.library.BluetoothSPP;
 import app.akexorcist.bluetotohspp.library.BluetoothState;
 import kr.edcan.acar.R;
 import kr.edcan.acar.databinding.ActivityMainBinding;
-import kr.edcan.acar.service.MessageInstanceIDService;
-import kr.edcan.acar.service.MessagingService;
+import kr.edcan.acar.utils.DataManager;
 import kr.edcan.acar.views.SeekArc;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 .content("출발하거나 문을 닫지 말아주세요")
                 .cancelable(false);
         dialog = builder.build();
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle("");
 //        startService(new Intent(getApplicationContext(), MessageInstanceIDService.class));
 //        startService(new Intent(getApplicationContext(), MessagingService.class));
         FirebaseInstanceId.getInstance().getToken();
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }, 500);
         } else if (progress == 0) {
             Toast.makeText(MainActivity.this, "엔진이 꺼집니다.", Toast.LENGTH_SHORT).show();
+            binding.mainEngineText.setText("꺼짐");
             bt.send("a", false);
         }
     }
@@ -182,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         binding.mainFrontText.setTextColor(res.getColor(!(front == 0) ? R.color.main_selected_color : R.color.main_not_selected_color));
         binding.mainFrontSubText.setTextColor(res.getColor(!(front == 0) ? R.color.sub_selected_color : R.color.sub_not_selected_color));
         binding.mainRearSubText.setTextColor(res.getColor((back == 0) ? R.color.sub_not_selected_color : R.color.sub_selected_color));
+        binding.mainCloseText.setText("열림");
 
         String frontResult;
         switch (front) {
@@ -207,4 +214,34 @@ public class MainActivity extends AppCompatActivity {
         else dialog.dismiss();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:
+                new MaterialDialog.Builder(this)
+                        .title("로그아웃")
+                        .content("로그아웃합니다.")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                LoginManager.getInstance().logOut();
+                                DataManager d = new DataManager();
+                                d.initializeManager(getApplicationContext());
+                                d.removeAllData();
+                                startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+                                finish();
+                            }
+                        })
+                        .positiveText("확인")
+                        .positiveColor(getResources().getColor(R.color.colorPrimary))
+                        .show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
