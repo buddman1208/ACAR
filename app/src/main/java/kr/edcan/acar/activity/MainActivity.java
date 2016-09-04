@@ -2,12 +2,15 @@ package kr.edcan.acar.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.IOException;
 import java.util.Random;
 
 import app.akexorcist.bluetotohspp.library.BluetoothSPP;
@@ -28,14 +32,14 @@ import kr.edcan.acar.utils.DataManager;
 import kr.edcan.acar.views.SeekArc;
 
 public class MainActivity extends AppCompatActivity {
-
+    MediaPlayer audio_play;
     ActivityMainBinding binding;
     BluetoothSPP bt;
     SeekArc seekArc;
     TextView progressText;
     int progress = 0;
-    MaterialDialog.Builder builder;
-    MaterialDialog dialog;
+    MaterialDialog.Builder builder, childTempErr;
+    MaterialDialog dialog, childTempDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,24 @@ public class MainActivity extends AppCompatActivity {
                 .content("출발하거나 문을 닫지 말아주세요")
                 .cancelable(false);
         dialog = builder.build();
+        childTempErr = new MaterialDialog.Builder(this)
+                .customView(R.layout.custom_dialog_view, true)
+                .cancelable(false);
+        childTempDialog = childTempErr.build();
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle("");
+        AssetFileDescriptor afd = null;
+        try {
+            afd = getAssets().openFd("errorsound.mp3");
+            audio_play = new MediaPlayer();
+            audio_play.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+            audio_play.prepare();
+        } catch (IOException e) {
+            Log.e("asdf", e.getMessage());
+            e.printStackTrace();
+        }
+
 //        startService(new Intent(getApplicationContext(), MessageInstanceIDService.class));
 //        startService(new Intent(getApplicationContext(), MessagingService.class));
         FirebaseInstanceId.getInstance().getToken();
@@ -83,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
                 updateUI(message);
+                Log.e("asdf", message + "");
+
             }
         });
 
@@ -212,6 +234,25 @@ public class MainActivity extends AppCompatActivity {
         if (door == 0)
             dialog.show();
         else dialog.dismiss();
+
+
+        if (temp > 35) {
+            childTempDialog.show();
+            if(!audio_play.isPlaying()) {
+                audio_play.start();
+            }
+        } else if (temp <= 35) {
+            childTempDialog.dismiss();
+            if (audio_play.isPlaying()) {
+                audio_play.stop();
+                try {
+                    audio_play.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     @Override
@@ -222,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
                 new MaterialDialog.Builder(this)
                         .title("로그아웃")
