@@ -107,22 +107,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     void setProgress() {
-        seekArc.setProgress(progress++);
-        progressText.setText(progress + "%");
-        if (progress < 72) {
+        if (progress < 100) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    seekArc.setProgress(progress++);
+                    progressText.setText(progress + "%");
                     setProgress();
                 }
             }, 10);
-        } else {
+        } else if (progress == 100) {
             setFuelStatus();
         }
     }
 
     private void setFuelStatus() {
-
         if (progress > 0) {
             progress--;
             seekArc.setProgress(progress);
@@ -132,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     setFuelStatus();
                 }
-            }, 1000);
-        } else {
+            }, 500);
+        } else if (progress == 0) {
             Toast.makeText(MainActivity.this, "엔진이 꺼집니다.", Toast.LENGTH_SHORT).show();
             bt.send("a", false);
         }
