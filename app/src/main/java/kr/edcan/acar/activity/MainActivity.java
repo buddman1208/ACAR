@@ -116,6 +116,26 @@ public class MainActivity extends AppCompatActivity {
                     setProgress();
                 }
             }, 10);
+        } else {
+            setFuelStatus();
+        }
+    }
+
+    private void setFuelStatus() {
+
+        if (progress > 0) {
+            progress--;
+            seekArc.setProgress(progress);
+            progressText.setText(progress + "%");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setFuelStatus();
+                }
+            }, 1000);
+        } else {
+            Toast.makeText(MainActivity.this, "엔진이 꺼집니다.", Toast.LENGTH_SHORT).show();
+            bt.send("a", false);
         }
     }
 
@@ -151,14 +171,14 @@ public class MainActivity extends AppCompatActivity {
         int front = Integer.parseInt(status[1]);
         int door = Integer.parseInt(status[2]);
         int temp = Integer.parseInt(status[3]);
-        int engine = Integer.parseInt(status[4]);
+//        int engine = Integer.parseInt(status[4]);
 
         binding.mainCarTemp.setText(temp + "");
         binding.mainFrontIcon.setImageDrawable(res.getDrawable((front == 0) ? R.drawable.acc_status_seat_off : R.drawable.acc_status_seat_on));
         binding.mainRearIcon.setImageDrawable(res.getDrawable((back == 0) ? R.drawable.acc_status_seat_off : R.drawable.acc_status_seat_on));
         binding.mainFrontBackground.setBackgroundResource((front == 0) ? R.drawable.round_10dp_not_colored : R.drawable.round_10dp_colored);
         binding.mainRearBackground.setBackgroundResource((back == 0) ? R.drawable.round_10dp_not_colored : R.drawable.round_10dp_colored);
-        binding.mainEngineText.setText((engine == 0) ? "꺼짐" : "양호");
+//        binding.mainEngineText.setText((engine == 0) ? "꺼짐" : "양호");
         binding.mainRearrText.setTextColor(res.getColor((back == 0) ? R.color.main_not_selected_color : R.color.main_selected_color));
         binding.mainFrontText.setTextColor(res.getColor(!(front == 0) ? R.color.main_selected_color : R.color.main_not_selected_color));
         binding.mainFrontSubText.setTextColor(res.getColor(!(front == 0) ? R.color.sub_selected_color : R.color.sub_not_selected_color));
